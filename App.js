@@ -1,58 +1,27 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ModuleListScreen from './src/components/screens/ModuleListScreen';
-import ModuleAddScreen from './src/components/screens/ModuleAddScreen';
-import ModuleModifyScreen from './src/components/screens/ModuleModifyScreen';
-import ModuleViewScreen from './src/components/screens/ModuleViewScreen';   
+import Screen from './src/components/layout/Screen'; // still used if you add more screens later
 
 const Stack = createNativeStackNavigator();
 
-export const App = () => {
-  //Initialisation.......................................
-  //State................................................
-  //Handlers.............................................
-  //View.................................................
+export default function App() {
   return (
     <NavigationContainer>
-        <Stack.Navigator 
-        initialRouteName='ModuleListScreen'>
+      <Stack.Navigator
+        initialRouteName="ModuleList"
         screenOptions={{
-          headerStyle: {backgroundColor: 'black'},
+          headerStyle: { backgroundColor: 'black' },
           headerTintColor: 'white',
-          }}
-      
-      
-          <Stack.Screen
-          name="ModuleListScreen"
+        }}
+      >
+        <Stack.Screen
+          name="ModuleList"
           component={ModuleListScreen}
-          options={{title: 'List module'}}
+          options={{ title: 'List modules' }}
         />
-
-        <Stack.Screen
-          name="ModuleAddScreen"
-          component={ModuleAddScreen}
-          options={{title: 'Add module'}}
-        />
-
-        
-        <Stack.Screen
-          name="ModuleViewScreen"
-          component={ModuleViewScreen}
-          options={{title: 'View module'}}
-        />
-
-        
-        <Stack.Screen
-          name="ModuleModifyScreen"
-          component={ModuleModifyScreen}
-          options={{title: 'Modify module'}}
-        />
-
-        
       </Stack.Navigator>
     </NavigationContainer>
   );
-};
-
-export default App;
-
+}

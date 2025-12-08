@@ -1,29 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 
- const Screen = ({children}) => {
-  //Initialisation.......................................
-  //State................................................
-  //Handlers.............................................
-  //View.................................................
-  return (
-    <View style={styles.screen}>
-        {children}
-      <Text>Modify</Text>
-      <StatusBar style='light' />
-    </View>
-  );
+export default function Screen({ children }) {
+  return <View style={styles.screen}>{children}</View>;
 }
 
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
   },
 });
-
-export default Screen;
-
-

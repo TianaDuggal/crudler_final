@@ -1,19 +1,33 @@
-import { StyleSheet, Text } from 'react-native';
+import React from 'react';
+import {ScrollView, StyleSheet } from 'react-native';
 import Screen from '../layout/Screen';
+import modules from '../../data/modules';
+import ModuleItem from '../entity/modules/ModuleItem';
 
- const ModuleListScreen = () => {
+import intialModules from '../../data/modules.js';
+
+const ModuleListScreen = () => {
   //Initialisation.......................................
-  //State................................................
-  //Handlers.............................................
-  //View.................................................
+  const modules = intialModules;
+
+  //State..............................................
+  //Handlers.............................................       
+    const handleSelect = () => alert('Item selected');
+
+    //View.................................................
   return (
     <Screen>
-      <Text>List</Text>
+      <ScrollView style={styles.container}>
+        {modules.map((module) => {
+          return <ModuleItem  key={module.ModuleCode} module={module} onSelect={handleSelect}/>;
+    })}
+      </ScrollView>
     </Screen>
   );
-}
+};
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {},
+});
 
 export default ModuleListScreen;
-
