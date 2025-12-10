@@ -1,33 +1,51 @@
-import React from 'react';
-import {ScrollView, StyleSheet } from 'react-native';
+import {useState} from 'react';
+import {LogBox, StyleSheet } from 'react-native';
 import Screen from '../layout/Screen';
-import modules from '../../data/modules';
-import ModuleItem from '../entity/modules/ModuleItem';
-
+import Icons from '../UI/Icons.js';
+import {Button, ButtonTray} from '../UI/Button.js';
+import ModuleList from '../entity/modules/ModuleList.js';
 import intialModules from '../../data/modules.js';
 
-const ModuleListScreen = () => {
-  //Initialisation.......................................
-  const modules = intialModules;
+LogBox.ignoreLogs([
+  'new NativeEventEmitter',]);
 
-  //State..............................................
-  //Handlers.............................................       
-    const handleSelect = () => alert('Item selected');
+const ModuleListScreen = ({navigation}) => {
+  //Initialisation......................................
+  LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
-    //View.................................................
+  //State...............................................
+  const [modules, setModules] = useState(intialModules);
+
+  //Handlers............................................     
+    const handleDelete = (module) => 
+      setModules(modules.filter((item)=> item.ModuleID !== module.ModuleID));  
+    
+    const handleAdd = (module) => setModules([...modules, module]);
+
+    const onDelete = (module) => {
+      handleDelete(module);
+      navigation.goBack();
+    };
+
+    const onAdd = (module) => {
+      handleAdd(module);
+      navigation.goBack();
+    };
+
+    const gotoViewScreen = (module) => navigation.navigate('ModuleViewScreen', {module, onDelete});  
+    const gotoAddScreen = () => navigation.navigate('ModuleAddScreen', {onAdd});
+
+    //View...............................................
   return (
     <Screen>
-      <ScrollView style={styles.container}>
-        {modules.map((module) => {
-          return <ModuleItem  key={module.ModuleCode} module={module} onSelect={handleSelect}/>;
-    })}
-      </ScrollView>
+      <ButtonTray>
+        <Button label="Add" icon={<Icons.Add/>} onClick={gotoAddScreen}/>
+      </ButtonTray>
+      <ModuleList modules={modules} onSelect={gotoViewScreen}/>
     </Screen>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {},
-});
+const styles = StyleSheet.create({});
 
 export default ModuleListScreen;

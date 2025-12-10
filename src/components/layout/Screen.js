@@ -8,8 +8,9 @@ export default function Screen({ children }) {
 const styles = StyleSheet.create({
   screen: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 20,
+    //justifyContent: 'center',
+    //alignItems: 'center',
     backgroundColor: '#fff',
   },
 });

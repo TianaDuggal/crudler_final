@@ -3,10 +3,12 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 const ModuleItem = ({module, onSelect}) => {
   //Initialisation.......................................
   //State..............................................
-  //Handlers.............................................       
+  //Handlers.............................................    
+  const handleSelect = () => onSelect(module);
+    
   //View.................................................
     return (
-        <Pressable onPress={onSelect}>
+        <Pressable onPress={handleSelect}>
             <View style={styles.item}>
                 <Text style={styles.text}>
                     {module.ModuleCode} {module.ModuleName}
@@ -19,7 +21,7 @@ const ModuleItem = ({module, onSelect}) => {
 const styles = StyleSheet.create({
     item: {
     paddingVertical: 15,
-    borderTopWidth: 1,
+    borderBotttomWidth: 1,
     borderColor: 'lightgray',
   },
   text: {
