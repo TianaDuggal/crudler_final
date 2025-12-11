@@ -1,48 +1,58 @@
-import {useState} from 'react';
-import { StyleSheet } from 'react-native';
-import {LogBox, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { LogBox, StyleSheet } from 'react-native';
+
 import Screen from '../layout/Screen';
 import Icons from '../UI/Icons.js';
-import {Button, ButtonTray} from '../UI/Button.js';
+import { Button, ButtonTray } from '../UI/Button.js';
 import ModuleList from '../entity/modules/ModuleList.js';
-import intialModules from '../../data/modules.js';
+import intialModules from '../../data/modules.js'; // keep this name if your data file exports it like that
 
-LogBox.ignoreLogs([
-  'new NativeEventEmitter',]);
+// Ignore the warning once at the top level
+LogBox.ignoreLogs(['new NativeEventEmitter']);
+LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
-const ModuleListScreen = ({navigation}) => {
-  //Initialisation......................................
-  LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
-
-  //State...............................................
+const ModuleListScreen = ({ navigation }) => {
+  // State...............................................
   const [modules, setModules] = useState(intialModules);
 
-  //Handlers............................................     
-    const handleDelete = (module) => 
-      setModules(modules.filter((item)=> item.ModuleID !== module.ModuleID));  
-    
-    const handleAdd = (module) => setModules([...modules, module]);
+  // Handlers............................................
+  const handleDelete = (module) =>
+    setModules(modules.filter((item) => item.ModuleID !== module.ModuleID));
 
-    const onDelete = (module) => {
-      handleDelete(module);
-      navigation.goBack();
-    };
+  const handleAdd = (module) => setModules([...modules, module]);
 
-    const onAdd = (module) => {
-      handleAdd(module);
-      navigation.goBack();
-    };
+  const handleModify = (updateModule) => setModules(
+    modules.map((module) => (module.ModuleID === updateModule.ModuleID) ? updateModule : module)
+  );
 
-    const gotoViewScreen = (module) => navigation.navigate('ModuleViewScreen', {module, onDelete});  
-    const gotoAddScreen = () => navigation.navigate('ModuleAddScreen', {onAdd});
+  const onDelete = (module) => {
+    handleDelete(module);
+    navigation.goBack();
+  };
 
-    //View...............................................
+  const onAdd = (module) => {
+    handleAdd(module);
+    navigation.goBack();
+  };
+
+  const onModify = (module) => {
+    handleModify(module);
+    navigation.goBack();
+  };
+
+  const gotoViewScreen = (module) =>
+    navigation.navigate('ModuleViewScreen', { module, onDelete, onModify });
+
+  const gotoAddScreen = () =>
+    navigation.navigate('ModuleAddScreen', { onAdd });
+
+  // View.................................................
   return (
     <Screen>
       <ButtonTray>
-        <Button label="Add" icon={<Icons.Add/>} onClick={gotoAddScreen}/>
+        <Button label="Add" icon={<Icons.Add />} onClick={gotoAddScreen} />
       </ButtonTray>
-      <ModuleList modules={modules} onSelect={gotoViewScreen}/>
+      <ModuleList modules={modules} onSelect={gotoViewScreen} />
     </Screen>
   );
 };

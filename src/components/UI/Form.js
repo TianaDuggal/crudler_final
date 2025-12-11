@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     itemLabel: {
         color: 'grey',
         fontSize: 16,
-        marginBottom: 5,
+        marginBottom: 10,
   },
     itemTextInput: {
         height: 50,
