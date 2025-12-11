@@ -37,7 +37,7 @@ const ModuleListScreen = ({ navigation }) => {
 
   const onModify = (module) => {
     handleModify(module);
-    navigation.goBack();
+    navigation.pop(2);
   };
 
   const gotoViewScreen = (module) =>
