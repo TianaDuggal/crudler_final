@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import { StyleSheet } from 'react-native';
 import {LogBox, StyleSheet } from 'react-native';
 import Screen from '../layout/Screen';
 import Icons from '../UI/Icons.js';
