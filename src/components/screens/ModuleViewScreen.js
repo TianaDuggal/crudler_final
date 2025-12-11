@@ -1,21 +1,33 @@
-import { StyleSheet} from 'react-native';
-import Screen from '../layout/Screen';
-import ModuleView from '../entity/modules/ModuleView';
+// src/components/screens/ModuleModifyScreen.js
 
- const ModuleViewScreen = ({navigation, route}) => {
-  //Initialisation.......................................
-  const {module, onDelete, onModify} = route.params;
-  //State................................................
-  //Handlers.............................................
-  const gotoModifyScreen = () => navigation.replace('ModuleModifyScreen', {module, onModify});
-  //View.................................................
+import { StyleSheet } from 'react-native';
+
+import Screen from '../layout/Screen';
+import ModuleForm from '../entity/modules/ModuleForm';
+
+const ModuleModifyScreen = ({ navigation, route }) => {
+  // Provided when navigating from ModuleViewScreen
+  const { module, onModify } = route.params;
+
+  const handleCancel = () => navigation.goBack();
+
+  const handleSubmit = (updatedModule) => {
+    onModify(updatedModule);   // update list state in ModuleListScreen
+  };
+
   return (
-    <Screen>
-      <ModuleView module={module} onDelete={onDelete} onModify={gotoModifyScreen}/>
+    <Screen title="Modify module">
+      {/* Use the prop name your ModuleForm expects for initial data.
+         In your earlier version it was `initialValues`, so we keep that. */}
+      <ModuleForm
+        initialValues={module}
+        onSubmit={handleSubmit}
+        onCancel={handleCancel}
+      />
     </Screen>
   );
 };
 
 const styles = StyleSheet.create({});
 
-export default ModuleViewScreen;
+export default ModuleModifyScreen;
