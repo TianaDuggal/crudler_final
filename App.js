@@ -12,7 +12,7 @@ import ModuleAddScreen from './src/components/screens/ModuleAddScreen';
 import ModuleViewScreen from './src/components/screens/ModuleViewScreen';
 import ModuleModifyScreen from './src/components/screens/ModuleModifyScreen';
 
-// ----- User screens (NO template folder!) -----
+// ----- User screens -----
 import UserListScreen from './src/components/screens/UserListScreen';
 import UserAddScreen from './src/components/screens/UserAddScreen';
 import UserViewScreen from './src/components/screens/UserViewScreen';
@@ -21,86 +21,67 @@ import UserModifyScreen from './src/components/screens/UserModifyScreen';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-// ===== MODULE STACK =====
+// ========= MODULE STACK (inner) =========
 function ModuleStackNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="ModuleListScreen"
-        component={ModuleListScreen}
-        options={{ title: 'Modules' }}
-      />
-      <Stack.Screen
-        name="ModuleAddScreen"
-        component={ModuleAddScreen}
-        options={{ title: 'Add Module' }}
-      />
-      <Stack.Screen
-        name="ModuleViewScreen"
-        component={ModuleViewScreen}
-        options={{ title: 'View Module' }}
-      />
-      <Stack.Screen
-        name="ModuleModifyScreen"
-        component={ModuleModifyScreen}
-        options={{ title: 'Edit Module' }}
-      />
+    <Stack.Navigator
+      // hide stack headers so we only see the Drawer header,
+      // like in your coursework screenshots
+      screenOptions={{ headerShown: false }}
+    >
+      {/* names must match what you use in navigation.navigate(...) */}
+      <Stack.Screen name="ModuleList" component={ModuleListScreen} />
+      <Stack.Screen name="ModuleAdd" component={ModuleAddScreen} />
+      <Stack.Screen name="ModuleView" component={ModuleViewScreen} />
+      <Stack.Screen name="ModuleModify" component={ModuleModifyScreen} />
     </Stack.Navigator>
   );
 }
 
-// ===== USER STACK =====
+// ========= USER STACK (inner) =========
 function UserStackNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="UserListScreen"
-        component={UserListScreen}
-        options={{ title: 'Users' }}
-      />
-      <Stack.Screen
-        name="UserAddScreen"
-        component={UserAddScreen}
-        options={{ title: 'Add User' }}
-      />
-      <Stack.Screen
-        name="UserViewScreen"
-        component={UserViewScreen}
-        options={{ title: 'View User' }}
-      />
-      <Stack.Screen
-        name="UserModifyScreen"
-        component={UserModifyScreen}
-        options={{ title: 'Edit User' }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {/* keep names exactly as used in UserListScreen navigation.navigate(...) */}
+      <Stack.Screen name="UserListScreen" component={UserListScreen} />
+      <Stack.Screen name="UserAddScreen" component={UserAddScreen} />
+      <Stack.Screen name="UserViewScreen" component={UserViewScreen} />
+      <Stack.Screen name="UserModifyScreen" component={UserModifyScreen} />
     </Stack.Navigator>
   );
 }
 
-// ===== ROOT APP WITH DRAWER =====
+// ========= ROOT APP WITH DRAWER =========
 export default function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
-        initialRouteName="Modules"
-        screenOptions={{ headerShown: false }}
+        initialRouteName="ModuleCrudler"
+        // show the Drawer header (important!)
+        screenOptions={{
+          headerTitleAlign: 'center',
+        }}
       >
+        {/* MODULE CRUDLer in drawer */}
         <Drawer.Screen
-          name="Modules"
+          name="ModuleCrudler"
           component={ModuleStackNavigator}
           options={{
-            drawerLabel: 'Modules',
+            title: 'Module CRUDLer',        // header title
+            drawerLabel: 'Module CRUDLer',  // text in drawer
             drawerIcon: ({ size, color }) => (
               <MaterialIcons name="view-list" size={size} color={color} />
             ),
           }}
         />
 
+        {/* USER CRUDLer in drawer */}
         <Drawer.Screen
-          name="Users"
+          name="UserCrudler"
           component={UserStackNavigator}
           options={{
-            drawerLabel: 'Users',
+            title: 'User CRUDLer',
+            drawerLabel: 'User CRUDLer',
             drawerIcon: ({ size, color }) => (
               <MaterialIcons name="people" size={size} color={color} />
             ),
