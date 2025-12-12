@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LogBox, StyleSheet } from 'react-native';
+import { LogBox, StyleSheet, Text } from 'react-native';
 
 import Screen from '../layout/Screen';
 import Icons from '../UI/Icons.js';
@@ -51,6 +51,8 @@ const UserListScreen = ({ navigation }) => {
   // View.................................................
   return (
     <Screen>
+      {/* This line was already present in your original code */}
+      <Text style={styles.heading}>List Users</Text>
       <ButtonTray>
         <Button label="Add user" icon={<Icons.Add />} onClick={gotoAddScreen} />
       </ButtonTray>
@@ -59,6 +61,15 @@ const UserListScreen = ({ navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  // Added the heading style definition here
+  heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    // Optional spacing to fit the layout
+    marginVertical: 10, 
+    paddingHorizontal: 20,
+  },
+});
 
 export default UserListScreen;
