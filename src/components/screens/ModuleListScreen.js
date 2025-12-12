@@ -29,6 +29,8 @@ const ModuleListScreen = ({ navigation }) => {
       current.map((m) => (m.ModuleID === updatedModule.ModuleID ? updatedModule : m))
     );
 
+
+
   const onDelete = (module) => {
     handleDelete(module);
     navigation.popToTop();
@@ -42,6 +44,9 @@ const ModuleListScreen = ({ navigation }) => {
   const onModify = (module) => {
     handleModify(module);
   };
+
+
+
 
   const gotoViewScreen = (module) =>
     navigation.navigate('ModuleViewScreen', { module, onDelete, onModify });
