@@ -13,7 +13,7 @@ const ModuleViewScreen = ({ navigation, route }) => {
 
   //Handlers.............................................
   const gotoModify = () =>
-    navigation.navigate('ModuleModifyScreen', {
+    navigation.replace('ModuleModifyScreen', {
       module,
       onModify,
       onDelete,

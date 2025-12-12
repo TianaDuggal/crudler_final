@@ -13,7 +13,7 @@ const ModuleAddScreen = ({ navigation, route }) => {
 
   const handleSubmit = (module) => {
     onAdd(module);
-    // onAdd already does goBack in list, but this is safe:
+    
     navigation.goBack();
   };
 

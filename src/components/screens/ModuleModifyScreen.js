@@ -16,8 +16,9 @@ const ModuleModifyScreen = ({ navigation, route }) => {
 
     navigation.replace('ModuleViewScreen', {
       module: updatedModule,
-      onModify,
       onDelete,
+      onModify,
+      fromModify: true,
     });
   };
 
