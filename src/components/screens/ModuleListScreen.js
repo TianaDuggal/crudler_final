@@ -1,5 +1,4 @@
-// src/components/screens/ModuleListScreen.js
-
+//Initialisation.........................................................
 import { useState } from 'react';
 import { LogBox, StyleSheet } from 'react-native';
 
@@ -9,15 +8,14 @@ import { Button, ButtonTray } from '../UI/Button';
 import ModuleList from '../entity/modules/ModuleList';
 import initialModules from '../../data/modules';
 
-// ignore noisy warnings like in UserListScreen
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 LogBox.ignoreLogs(['Non-serializable values were found in the navigation state']);
 
 const ModuleListScreen = ({ navigation }) => {
-  // ---------- State ----------
+  //State.........................................................
   const [modules, setModules] = useState(initialModules);
 
-  // ---------- Pure handlers on state ----------
+  //Handlers.........................................................
   const handleDelete = (module) =>
     setModules((current) =>
       current.filter((item) => item.ModuleID !== module.ModuleID)
@@ -33,7 +31,6 @@ const ModuleListScreen = ({ navigation }) => {
       )
     );
 
-  // ---------- Callbacks passed via navigation ----------
   const onDelete = (module) => {
     handleDelete(module);
     navigation.goBack();
@@ -49,18 +46,17 @@ const ModuleListScreen = ({ navigation }) => {
     navigation.goBack();
   };
 
-  // ---------- Navigation helpers ----------
   const gotoViewScreen = (module) =>
-    navigation.navigate('ModuleViewScreen', {
+    navigation.navigate('ModuleView', {
       module,
       onDelete,
       onModify,
     });
 
   const gotoAddScreen = () =>
-    navigation.navigate('ModuleAddScreen', { onAdd });
+    navigation.navigate('ModuleAdd', { onAdd });
 
-  // ---------- View ----------
+  //View.........................................................
   return (
     <Screen title="List modules">
       <ButtonTray>
@@ -70,8 +66,6 @@ const ModuleListScreen = ({ navigation }) => {
           onClick={gotoAddScreen}
         />
       </ButtonTray>
-
-      {/* IMPORTANT: pass onSelect, because ModuleItem expects onSelect */}
       <ModuleList modules={modules} onSelect={gotoViewScreen} />
     </Screen>
   );

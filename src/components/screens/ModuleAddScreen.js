@@ -1,20 +1,21 @@
-// src/components/screens/ModuleAddScreen.js
-
+//Initialisation.........................................................
 import { StyleSheet } from 'react-native';
 
 import Screen from '../layout/Screen';
 import ModuleForm from '../entity/modules/ModuleForm';
 
 const ModuleAddScreen = ({ navigation, route }) => {
-  // This is passed from ModuleListScreen when we navigate
+  //State.........................................................
   const { onAdd } = route.params;
 
+  //Handlers.........................................................
   const handleCancel = () => navigation.goBack();
 
   const handleSubmit = (module) => {
-    onAdd(module);       // update list in ModuleListScreen
+    onAdd(module);
   };
 
+  //View.........................................................
   return (
     <Screen title="Add module">
       <ModuleForm onSubmit={handleSubmit} onCancel={handleCancel} />
