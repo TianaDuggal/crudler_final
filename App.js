@@ -1,137 +1,139 @@
-// App.js
+// Main entry file for SmartSpend navigation and shared app setup.
+
+//Initialisation.......................................
+// Imports
 import 'react-native-gesture-handler';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { MaterialIcons } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-// ----- Module screens -----
-import ModuleListScreen from './src/components/screens/ModuleListScreen';
-import ModuleAddScreen from './src/components/screens/ModuleAddScreen';
-import ModuleViewScreen from './src/components/screens/ModuleViewScreen';
-import ModuleModifyScreen from './src/components/screens/ModuleModifyScreen';
+import { SmartSpendProvider } from './src/context/SmartSpendContext';
+import OverviewScreen from './src/screens/OverviewScreen';
+import AddExpenseScreen from './src/screens/AddExpenseScreen';
+import ExpenseHistoryScreen from './src/screens/ExpenseHistoryScreen';
+import TrendsScreen from './src/screens/TrendsScreen';
+import IncomeCyclesScreen from './src/screens/IncomeCyclesScreen';
+import { COLORS } from './src/constants/theme';
 
-// ----- User screens -----
-import UserListScreen from './src/components/screens/UserListScreen';
-import UserAddScreen from './src/components/screens/UserAddScreen';
-import UserViewScreen from './src/components/screens/UserViewScreen';
-import UserModifyScreen from './src/components/screens/UserModifyScreen';
-
-const Drawer = createDrawerNavigator();
+// Navigation setup
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-function ModuleStackNavigator() {
+// Bottom-tab structure
+function SmartSpendTabs() {
+  //View.................................................
   return (
-    <Stack.Navigator
-      screenOptions={{
+    <Tab.Navigator
+      // The bottom tabs keep the main student tasks one tap away throughout the app.
+      screenOptions={({ route }) => ({
         headerTitleAlign: 'center',
-      }}
-    >
-      <Stack.Screen
-        name="ModuleListScreen"
-        component={ModuleListScreen}
-        options={({ navigation }) => ({
-          title: 'Module CRUDLer',
-          headerLeft: () => (
-            <MaterialIcons
-              name="menu"
-              size={26}
-              style={{ marginLeft: 12 }}
-              onPress={() => navigation.openDrawer()}
-            />
-          ),
-        })}
-      />
+        headerStyle: {
+          backgroundColor: COLORS.card,
+        },
+        headerTintColor: COLORS.ink,
+        tabBarActiveTintColor: COLORS.blue,
+        tabBarInactiveTintColor: COLORS.slate,
+        tabBarStyle: {
+          backgroundColor: COLORS.card,
+          borderTopColor: COLORS.border,
+          height: 68,
+          paddingBottom: 8,
+          paddingTop: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: '600',
+        },
+        tabBarIcon: ({ color, size }) => {
+          const icons = {
+            Overview: 'view-dashboard-outline',
+            ExpenseHistory: 'wallet-outline',
+            Trends: 'chart-donut',
+            IncomeCycles: 'calendar-range-outline',
+          };
 
-      {/* ✅ Back arrow appears automatically on these screens */}
-      <Stack.Screen
-        name="ModuleAddScreen"
-        component={ModuleAddScreen}
-        options={{ title: 'Add module' }}
+          return (
+            <MaterialCommunityIcons
+              name={icons[route.name]}
+              size={size}
+              color={color}
+            />
+          );
+        },
+      })}
+    >
+      <Tab.Screen
+        name="Overview"
+        component={OverviewScreen}
+        options={{ title: 'Overview' }}
       />
-      <Stack.Screen
-        name="ModuleViewScreen"
-        component={ModuleViewScreen}
-        options={{ title: 'View module' }}
+      <Tab.Screen
+        name="ExpenseHistory"
+        component={ExpenseHistoryScreen}
+        options={{ title: 'History' }}
       />
-      <Stack.Screen
-        name="ModuleModifyScreen"
-        component={ModuleModifyScreen}
-        options={{ title: 'Modify module' }}
+      <Tab.Screen
+        name="Trends"
+        component={TrendsScreen}
+        options={{ title: 'Insights' }}
       />
-    </Stack.Navigator>
+      <Tab.Screen
+        name="IncomeCycles"
+        component={IncomeCyclesScreen}
+        options={{ title: 'Cycles' }}
+      />
+    </Tab.Navigator>
   );
 }
 
-function UserStackNavigator() {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerTitleAlign: 'center',
-      }}
-    >
-      <Stack.Screen
-        name="UserListScreen"
-        component={UserListScreen}
-        options={({ navigation }) => ({
-          title: 'User CRUDLer',
-          headerLeft: () => (
-            <MaterialIcons
-              name="menu"
-              size={26}
-              style={{ marginLeft: 12 }}
-              onPress={() => navigation.openDrawer()}
-            />
-          ),
-        })}
-      />
-
-      {/* ✅ Back arrow appears automatically on these screens */}
-      <Stack.Screen
-        name="UserAddScreen"
-        component={UserAddScreen}
-        options={{ title: 'Add user' }}
-      />
-      <Stack.Screen
-        name="UserViewScreen"
-        component={UserViewScreen}
-        options={{ title: 'View user' }}
-      />
-      <Stack.Screen
-        name="UserModifyScreen"
-        component={UserModifyScreen}
-        options={{ title: 'Modify user' }}
-      />
-    </Stack.Navigator>
-  );
-}
-
+// Root app wrapper
 export default function App() {
+  //View.................................................
   return (
-    <NavigationContainer>
-      <Drawer.Navigator screenOptions={{ headerShown: false }}>
-        <Drawer.Screen
-          name="ModuleCrudler"
-          component={ModuleStackNavigator}
-          options={{
-            drawerLabel: 'Module CRUDLer',
-            drawerIcon: ({ size, color }) => (
-              <MaterialIcons name="view-list" size={size} color={color} />
-            ),
+    // The provider loads database-backed finance data once and shares it across every screen.
+    <SmartSpendProvider>
+      <NavigationContainer>
+        <StatusBar style="dark" />
+        <Stack.Navigator
+          initialRouteName="SmartSpendTabs"
+          screenOptions={{
+            headerTitleAlign: 'center',
+            headerTintColor: COLORS.ink,
+            contentStyle: { backgroundColor: COLORS.background },
           }}
-        />
-        <Drawer.Screen
-          name="UserCrudler"
-          component={UserStackNavigator}
-          options={{
-            drawerLabel: 'User CRUDLer',
-            drawerIcon: ({ size, color }) => (
-              <MaterialIcons name="people" size={size} color={color} />
-            ),
-          }}
-        />
-      </Drawer.Navigator>
-    </NavigationContainer>
+        >
+          <Stack.Screen
+            name="SmartSpendTabs"
+            component={SmartSpendTabs}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="AddExpense"
+            component={AddExpenseScreen}
+            options={({ route }) => ({
+              title: route.params?.expenseId ? 'Edit Expense' : 'Add Expense',
+            })}
+          />
+          <Stack.Screen
+            name="ExpenseHistory"
+            component={ExpenseHistoryScreen}
+            options={{ title: 'Expense History' }}
+          />
+          <Stack.Screen
+            name="Trends"
+            component={TrendsScreen}
+            options={{ title: 'Spending Trends' }}
+          />
+          <Stack.Screen
+            name="IncomeCycles"
+            component={IncomeCyclesScreen}
+            options={{ title: 'Income Cycles' }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </SmartSpendProvider>
   );
 }
